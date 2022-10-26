@@ -1,6 +1,6 @@
 from http import client
 from ipaddress import collapse_addresses
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, BigInteger, Float,Boolean
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, BigInteger, Float,Boolean, Date
 from sqlalchemy.orm import scoped_session,sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -87,6 +87,7 @@ class Telefone(Base):
         db_session.delete(self)
         db_session.commit()
 
+
 class Contrato(Base):
     __tablename__ = 'tbl_contrato' 
     numero_contrato = Column(Integer, primary_key=True, autoincrement=True)
@@ -115,8 +116,9 @@ class Parcelas(Base):
     numero_parcela = Column(Integer, primary_key=True, autoincrement=True)
     valor_parcela = Column(Float, nullable=False) 
     situacao_parcela = Column(Integer, nullable=False)
+    data_vencimento_parcela = Column(Date, nullable=False)
     contrato_id = Column(Integer, ForeignKey('tbl_contrato.numero_contrato'))
-    cliente = relationship("Contrato")
+    contrato = relationship("Contrato")
 
     def __repr__(self):
         return "<Parcela: {}>".format(self.uf)
