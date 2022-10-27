@@ -100,9 +100,11 @@ class Contrato(Base):
     __tablename__ = 'tbl_contrato'
     numero_contrato = Column(Integer, primary_key=True, autoincrement=True)
     saldo_devedor = Column(Float, nullable=False)
-    saldo_total = Column(Float, nullable=False)
+    valor_total = Column(Float, nullable=False)
     taxa = Column(Float, nullable=False)
     situacao_contrato = Column(Integer, nullable=False)
+    quantidade_parcelas = Column(Integer, nullable=False)
+    data_contratacao = Column(Date, nullable=False)
     cliente_id = Column(Integer, ForeignKey('tbl_cliente.id'))
     cliente = relationship("Cliente")
 
@@ -123,7 +125,6 @@ class Parcelas(Base):
     numero_parcela = Column(Integer, primary_key=True, autoincrement=True)
     valor_parcela = Column(Float, nullable=False)
     situacao_parcela = Column(Integer, nullable=False)
-    data_vencimento_parcela = Column(Date, nullable=False)
     contrato_id = Column(Integer, ForeignKey('tbl_contrato.numero_contrato'))
     contrato = relationship("Contrato")
 

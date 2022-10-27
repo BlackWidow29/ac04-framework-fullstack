@@ -9,3 +9,4 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 
 api.add_resource(rotas.Contrato, '/contrato/<string:numero_contrato>/')
+api.add_resource(rotas.AllContratos, '/contrato/')

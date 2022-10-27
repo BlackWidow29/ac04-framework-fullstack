@@ -27,7 +27,7 @@ class Contrato(Resource):
                     }
                     for parcela in parcelas
                 ],
-                'cliente' : {
+                'cliente': {
                     'nome': cliente.nome,
                     'sobrenome': cliente.sobrenome
                 }
@@ -43,3 +43,19 @@ class Contrato(Resource):
 class AllContratos(Resource):
     def post(delf):
         data = request.json
+        contrato = Tables.Contrato(numero_contrato=data['numero_contrato'], saldo_devedor=data['saldo_devedor'],
+                                   valor_total=data['valor_total'], taxa=data['taxa'],
+                                   situacao_contrato=data['situacao_contrato'],
+                                   quantidade_parcelas=data['quantidade_parcelas'], cliente_id=data['cliente_id'],
+                                   data_contratacao=data['data_contratacao'])
+
+        valor_parcela = data['valor_total'] / data['quantidade_parcelas']
+        for i in range(1, data['quantidade_parcelas'] + 1):
+            numero_parcela = 1
+            parcela = Tables.Parcelas(numero_parcela=numero_parcela, valor_parcela=valor_parcela, situacao_parcela=1,
+                            contrato_id=data['numero_contrato'], contrato=contrato)
+
+            numero_parcela = numero_parcela + 1
+            parcela.save()
+
+        contrato.save()
