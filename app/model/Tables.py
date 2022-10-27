@@ -1,17 +1,14 @@
-from http import client
-from ipaddress import collapse_addresses
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, BigInteger, Float,Boolean, Date
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, BigInteger, Float, Boolean, Date
 from sqlalchemy.orm import scoped_session,sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('sqlite:///ac04.bd',convert_unicode=True)
+engine = create_engine('sqlite:///ac04.bd', echo=True)
 
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          bind=engine))
 
 Base = declarative_base()
 Base.query = db_session.query_property()
-
 
 class Cliente(Base):
     __tablename__ = 'tbl_cliente'
@@ -51,7 +48,6 @@ class Endereco(Base):
     def delete(self):
         db_session.delete(self)
         db_session.commit()
-
 
 
 class Uf(Base):
@@ -107,9 +103,6 @@ class Contrato(Base):
         db_session.delete(self)
         db_session.commit()
         
-        
-        
-
 
 class Parcelas(Base):
     __tablename__ = 'tbl_parcelas'
@@ -122,9 +115,11 @@ class Parcelas(Base):
 
     def __repr__(self):
         return "<Parcela: {}>".format(self.uf)
+
     def save(self):
         db_session.add(self)
         db_session.commit()
+
     def delete(self):
         db_session.delete(self)
         db_session.commit()
