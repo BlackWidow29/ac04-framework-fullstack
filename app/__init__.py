@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 api.add_resource(rotas.Contrato, '/contrato/<string:numero_contrato>/')
 api.add_resource(rotas.AllContratos, '/contrato/')
 
-api.add_resource(rotas.Cliente,'/cliente/<string:cliente_id>/')
+api.add_resource(rotas.Cliente,'/cliente/<int:cliente_id>/')
 api.add_resource(rotas.AllClientes,"/cliente/")
 
 api.add_resource(rotas.Telefone,'/telefone/<string:telefone_id>/')

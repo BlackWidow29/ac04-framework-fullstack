@@ -3,14 +3,14 @@ from ipaddress import collapse_addresses
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, BigInteger, Float, Boolean, Date
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('sqlite:///ac04.bd', convert_unicode=True)
-
-db_session = scoped_session(sessionmaker(autocommit=False,
-                                         bind=engine))
-
+engine = create_engine('sqlite:///ac04.sqlite')
+Session = sessionmaker(bind=engine)
+db_session = Session()
 Base = declarative_base()
-Base.query = db_session.query_property()
 
 
 class Cliente(Base):
@@ -21,6 +21,13 @@ class Cliente(Base):
     agencia = Column(BigInteger, nullable=False)
     conta = Column(BigInteger, nullable=False)
     email = Column(String(100), nullable=False)
+
+    def __init__(self, nome, sobrenome, agencia, conta, email):
+        self.nome= nome
+        self.sobrenome=sobrenome
+        self.agencia=agencia
+        self.conta=conta
+        self.email=email
 
     def __repr__(self):
         return "<Cliente: {}>".format(self.nome)

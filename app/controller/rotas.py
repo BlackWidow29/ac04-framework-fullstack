@@ -4,6 +4,7 @@ from urllib import response
 from flask import request, jsonify, Flask
 from flask_restful import Resource
 from ..model import Tables
+from ..model.Tables import Cliente
 
 app = Flask(__name__)
 
@@ -68,7 +69,8 @@ class AllContratos(Resource):
 
 class Cliente(Resource):
     def get(delf, cliente_id):
-        cliente = Tables.Cliente.query.filter_by(cliente_id=cliente_id).first()
+        #cliente = Tables.Cliente.query.filter_by(cliente_id=cliente_id).first()
+        cliente = Tables.db_session.query(Tables.Cliente).filter_by(id=cliente_id).first()
         try:
             response = {
                 'id': cliente.id,
@@ -114,12 +116,9 @@ class Cliente(Resource):
 
     def delete(self, cliente_id):
         try:
-            cliente = Tables.Cliente.query.filter_by(
-                cliente_id=cliente_id).first()
+            cliente = Tables.db_session.query(Tables.Cliente).filter_by(id=cliente_id).first()
             status = 'success'
-            msg = 'Cliente {} inativado com sucesso'.format(
-                cliente.cliente_id)
-            cliente.delete()
+            msg = 'Cliente {} inativado com sucesso'.format(Tables.Cliente.delete(cliente))
         except AttributeError:
             status = 'error'
             msg = 'Cliente com o id {} não encontrado'.format(cliente_id)
@@ -127,7 +126,7 @@ class Cliente(Resource):
 
 class AllClientes(Resource):
     def get(delf):
-        clientes = Tables.Cliente.query.all()
+        clientes = Tables.db_session.query(Tables.Cliente).all()
         response = [{'id': i.id, 'nome': i.nome, 'sobrenome': i.sobrenome,
                      'agencia': i.agencia, 'conta': i.conta, 'email': i.email} for i in clientes]
         return jsonify(response)
