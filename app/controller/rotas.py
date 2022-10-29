@@ -1,23 +1,21 @@
-from inspect import Attribute
-from multiprocessing import Barrier
 from urllib import response
 from flask import request, jsonify, Flask
 from flask_restful import Resource
 from ..model import Tables
-from ..model.Tables import Cliente
+
 
 app = Flask(__name__)
 
 
 class Contrato(Resource):
     def get(delf, numero_contrato):
-        contrato = Tables.Contrato.query.filter_by(
+        contrato = Tables.db_session.query(Tables.Contrato).filter_by(
             numero_contrato=numero_contrato).first()
-        parcelas = Tables.Parcelas.query.filter(
+        parcelas = Tables.db_session.query(Tables.Parcelas).filter_by(
             Tables.Parcelas.contrato_id == numero_contrato)
-        cliente = Tables.Cliente.query.filter_by(
+        cliente = Tables.db_session.query(Tables.Parcelas).filter_by(
             Tables.Cliente.id == contrato.cliente_id)
-
+            
         try:
             response = {
                 'numero_contrato': contrato.numero_contrato,
@@ -69,7 +67,6 @@ class AllContratos(Resource):
 
 class Cliente(Resource):
     def get(delf, cliente_id):
-        #cliente = Tables.Cliente.query.filter_by(cliente_id=cliente_id).first()
         cliente = Tables.db_session.query(Tables.Cliente).filter_by(id=cliente_id).first()
         try:
             response = {

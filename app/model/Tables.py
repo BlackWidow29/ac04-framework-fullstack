@@ -1,7 +1,6 @@
-from http import client
-from ipaddress import collapse_addresses
+
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, BigInteger, Float, Boolean, Date
-from sqlalchemy.orm import scoped_session, sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
