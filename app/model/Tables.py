@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('sqlite:///ac04.sqlite')
+engine = create_engine('sqlite:///ac04.sqlite', connect_args={'check_same_thread': False})
 Session = sessionmaker(bind=engine)
 db_session = Session()
 Base = declarative_base()
